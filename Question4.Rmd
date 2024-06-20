@@ -1,0 +1,388 @@
+---
+# IMPORTANT: Change settings here, but DO NOT change the spacing.
+# Remove comments and add values where applicable.
+# The descriptions below should be self-explanatory
+
+title: "A comparative analysis of India’s performance in the Olympics against other countries"
+#subtitle: "This will appear as Right Header"
+
+documentclass: "elsarticle"
+
+# --------- Thesis title (Optional - set to FALSE by default).
+# You can move the details below around as you please.
+Thesis_FP: FALSE
+# Entry1: "An unbelievable study with a title spanning multiple lines."
+# Entry2: "\\textbf{Nico Katzke}" # textbf for bold
+# Entry3: "A thesis submitted toward the degree of Doctor of Philosophy"
+# Uni_Logo: Tex/Logo.png # Place a logo in the indicated location (from your root, e.g. defaults to ~/Tex/Logo.png) and uncomment this line. Leave uncommented for no image
+# Logo_width: 0.3 # If using a logo - use this to set width (size) of image
+# Entry4: "Under the supervision of: \\vfill Prof. Joe Smith and Dr. Frank Smith"
+# Entry5: "Stellenbosch University"
+# Entry6: April 2020
+# Entry7:
+# Entry8:
+
+# --------- Front Page
+# Comment: ----- Follow this pattern for up to 5 authors
+AddTitle: TRUE # Use FALSE when submitting to peer reviewed platform. This will remove author names.
+Author1: "Katlego Gababonwe"  # First Author - note the thanks message displayed as an italic footnote of first page.
+Ref1: "Stellenbosch University, Western Cape" # First Author's Affiliation
+Email1: "27674193\\@sun.ac.za." # First Author's Email address
+
+CorrespAuthor_1: FALSE # If corresponding author is author 3, e.g., use CorrespAuthor_3: TRUE
+
+# Comment out below to remove both. JEL Codes only given if keywords also given.
+# keywords: "Multivariate GARCH \\sep Kalman Filter \\sep Copula" # Use \\sep to separate
+# JELCodes: "L250 \\sep L100"
+
+# ----- Manage headers and footers:
+#BottomLFooter: $Title$
+#BottomCFooter:
+#TopLHeader: \leftmark # Adds section name at topleft. Remove comment to add it.
+BottomRFooter: "\\footnotesize Page \\thepage" # Add a '#' before this line to remove footer.
+addtoprule: TRUE
+addfootrule: TRUE               # Use if footers added. Add '#' to remove line.
+
+# --------- page margins:
+margin: 2.3 # Sides
+bottom: 2 # bottom
+top: 2.5 # Top
+HardSet_layout: TRUE # Hard-set the spacing of words in your document. This will stop LaTeX squashing text to fit on pages, e.g.
+# This is done by hard-setting the spacing dimensions. Set to FALSE if you want LaTeX to optimize this for your paper.
+
+# --------- Line numbers
+linenumbers: FALSE # Used when submitting to journal
+
+# ---------- References settings:
+# You can download cls format here: https://www.zotero.org/ - simply search for your institution. You can also edit and save cls formats here: https://editor.citationstyles.org/about/
+# Hit download, store it in Tex/ folder, and change reference below - easy.
+bibliography: Tex/ref.bib       # Do not edit: Keep this naming convention and location.
+csl: Tex/harvard-stellenbosch-university.csl # referencing format used.
+# By default, the bibliography only displays the cited references. If you want to change this, you can comment out one of the following:
+#nocite: '@*' # Add all items in bibliography, whether cited or not
+# nocite: |  # add specific references that aren't cited
+#  @grinold2000
+#  @Someoneelse2010
+
+# ---------- General:
+RemovePreprintSubmittedTo: TRUE  # Removes the 'preprint submitted to...' at bottom of titlepage
+Journal: "Journal of Finance"   # Journal that the paper will be submitting to, if RemovePreprintSubmittedTo is set to TRUE.
+toc: FALSE                       # Add a table of contents
+numbersections: TRUE             # Should sections (and thus figures and tables) be numbered?
+fontsize: 11pt                  # Set fontsize
+linestretch: 1.2                # Set distance between lines.
+link-citations: TRUE            # This creates dynamic links to the papers in reference list.
+
+### Adding additional latex packages:
+# header-includes:
+#    - \usepackage{colortbl} # Add additional packages here.
+
+output:
+  pdf_document:
+    keep_tex: TRUE
+    template: Tex/TexDefault.txt
+    fig_width: 3.5 # Adjust default figure sizes. This can also be done in the chunks of the text.
+    fig_height: 3.5
+abstract: |
+ This study conducts a comprehensive analysis of India's performance in the Olympics and compares it to similarly sized economies, emerging markets, and select South American countries. By analyzing historical medal data, including adjustments for team events, and identifying key trends and patterns in India's Olympic achievements, Furthermore, the study investigates the most dominant countries in both the Winter and Summer Olympics. Lastly, we delve into a detailed examination of a selected favorite Olympic event, uncovering historical dominance and interesting statistics. This study provides actionable insights and recommendations for enhancing India's future Olympic performance.
+---
+
+<!-- First: Set your default preferences for chunk options: -->
+
+<!-- If you want a chunk's code to be printed, set echo = TRUE. message = FALSE stops R printing ugly package loading details in your final paper too. I also suggest setting warning = FALSE and checking for warnings in R, else you might find ugly warnings in your paper. -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.width = 6, fig.height = 5, fig.pos="H", fig.pos = 'H')
+
+if(!require("tidyverse")) install.packages("tidyverse")
+library(tidyverse)
+
+list.files("C:/Users/Katli Gabs/Documents/Data Science/27674193/27674193/Question4/Question4/code/Q4graphs.R", full.names = T, recursive = T) %>% as.list() %>% walk(~source(.))
+
+GDP <- readRDS("C:/Users/Katli Gabs/Documents/Data Science/27674193/27674193/Question4/Question4/data/olympics/GDP.rds")
+Summer <- readRDS("C:/Users/Katli Gabs/Documents/Data Science/27674193/27674193/Question4/Question4/data/olympics/summer.rds")
+Winter <- readRDS("C:/Users/Katli Gabs/Documents/Data Science/27674193/27674193/Question4/Question4/data/olympics/winter.rds")
+
+```
+
+
+<!-- ############################## -->
+<!-- # Start Writing here: -->
+<!-- ############################## -->
+
+# Introduction \label{Introduction}
+
+Over the years, Olympic games have gained traction, with some countries dominating medal holdings while others are still behind. In terms of medal total counts, India has been doing quite well in the past relative to its same-size country counterparts, as well as in the emerging market economy group. As a result, an analysis of its past performance in the summer and winter Olympics provides an interesting perspective, as the country is awaiting the upcoming games.
+
+\newpage
+# India Summer medals Compared to other Similar sized economy Counterpars \label{Top EU financial Contributors}
+
+The first plot shows the GDP per capita of India and countries with GDP that are around the same size. I selected countries within the range of 1500 to 2000 GDP per capita. The table indicates that only three countries within this threshold have medal counts, and India tops them all. The graph that follows indicates that India's medal counts for all the categories—silver, bronze, and gold—are high compared to these economies.
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "India Vs Similar Sized Economies.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+  # Source the plot with a function, and then print it as below.
+    # Going through the function, you will note that I'm able to source other functions in the code folder in these functions too.
+# That's the beauty of centralizing your functions and loading it in the top.
+#QUESTION4 PART 1
+
+df_sorted <- GDP %>%
+  arrange(Country)
+
+# Example data frame
+GDP_df <- data.frame(GDP)
+
+# Filter data to find information about India using explicit namespace
+India_df <- GDP_df %>%
+  dplyr::filter(Country == "India")
+
+
+#Countries with similar GDP per to India
+
+filtered_df <- GDP_df[GDP_df$GDP.per.Capita >= 1500 & GDP_df$GDP.per.Capita <= 2000, c("Country", "Code", "Population", "GDP.per.Capita")]
+
+# Remove rows with NA values
+filtered_df1 <- na.omit(filtered_df)
+
+# Create scatter plot-OF GDP 
+gs_GDP <- ggplot(filtered_df1, aes(x = Country, y = GDP.per.Capita)) +
+  geom_point(size = 3, color = "orange") +
+  geom_text(hjust = 0, vjust = 0.5, size = 3, angle = 45, aes(label = Country)) +  # Add labels for countries
+  labs(x = "Country", y = "GDP per Capita", title = "GDP per Capita by Country") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+gs_GDP
+
+# Rotate x-axis labels for better readability
+###This scatter graph works 
+
+#Summer medals 
+#SUMMER MEDALS DATA
+
+# Example: Arrange summer medals data by Country
+Summer_arranged_df <- Summer %>%
+  arrange(Country)
+
+
+# Example: Summarize medal counts by country
+medal_counts <- Summer %>%
+  group_by(Country, Medal) %>%
+  summarise(count = n()) %>%
+  pivot_wider(names_from = Medal, values_from = count, values_fill = list(count = 0))
+
+#Filter medal by similar sized economies to India
+
+#Similar sized economies 
+SimilarGDP_eco <- c("CGO", "DJI", "IND", "LAO", "MDA", "STP", "SOL")
+
+
+SimilarGDP_eco <- medal_counts  %>%
+  filter(Country %in% SimilarGDP_eco)
+
+SimilarGDP_eco 
+
+# Print the filtered medal counts for emerging countries
+
+#PLOT FOR SIMILAR GDP MEDALS 
+
+SimilarGDP_eco$Country <- factor(SimilarGDP_eco$Country, levels = SimilarGDP_eco$Country)
+
+# Reshape data for ggplot (from wide to long format)
+medal_counts_data_long <- SimilarGDP_eco %>%
+  tidyr::pivot_longer(cols = c(Bronze, Silver, Gold),
+                      names_to = "Medal",
+                      values_to = "Count")
+
+# Create grouped bar plot- PARTIALLY WORKS- RETURNS SAME COLOUR 
+ggmedals_GDP <- ggplot(medal_counts_data_long, aes(x = Country, y = Count, fill = Medal)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  labs(x = "Country", y = "Medal Count", title = "Medal Counts by Country") +
+  scale_fill_manual(values = c("bronze" = "brown", "silver" = "grey", "gold" = "gold")) +  # Custom colors
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  
+
+ggmedals_GDP
+
+# Rotate x-axis labels for better readability
+```
+\newpage
+
+# Medal Counts by Emerging Countries and Medal Type \label{Medal Counts by Emerging Countries and Medal Type}
+
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Medal Counts by Emerging Countries.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+  # Source the plot with a function, and then print it as below.
+    # Going through the function, you will note that I'm able to source other functions in the code folder in these functions too.
+# That's the beauty of centralizing your functions and loading it in the top.
+# List of emerging countries based on criteria
+emerging_economies <- c("BRA", "CHN", "IND", "INA", "MEX", "RUS", "RSA", "TUR", "VIE")
+
+# Filter the GDP_df to include only the emerging countries
+filtered_em <- GDP_df[GDP_df$Code %in% emerging_economies, ]
+
+
+# Filter medal counts for emerging countries only
+medal_counts_em <- medal_counts %>%
+  filter(Country %in% emerging_economies)
+
+
+###STACKED BAR MEDALS FOR EMERGING COUNTRIES WORKS WELL
+# Example data
+medal_countsdf <- data.frame(medal_counts_em)
+
+# Reshape data for plotting
+
+medal_counts_long <- medal_countsdf %>%
+  pivot_longer(cols = c(Bronze, Silver, Gold),
+               names_to = "MedalType",
+               values_to = "Count")
+
+gg_emerge <- ggplot(medal_counts_long, aes(x = Country, y = Count, fill = MedalType)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Medal Counts by Country and Medal Type",
+       x = "Country",
+       y = "Medal Count",
+       fill = "Medal Type") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+gg_emerge
+
+```
+
+\newpage
+
+# Medal Counts of India VS South American Economies \label{Medal Counts of India VS South American Economies }
+
+The stacked bar chart shows India's performance compared to many other South American countries. India is one of the top three performers in terms of medals and gold leads, while Brazil has the highest total medal count, followed by Argentina.
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Medal Counts of India VS South American Economies.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+# List of South American countries
+Samerican_eco_India <- c("ARG", "IND", "BOL", "BRA", "CHI", "COL", "ECU", "GUY", "PAR", "PER", "SUR", "URY", "VEN")
+
+#Filter medal counts for South American Countries and India countries only
+
+medal_counts_SAIND <- medal_counts %>%
+  filter(Country %in% Samerican_eco_India)
+
+# Print the filtered medal counts for emerging countries
+
+
+medal_counts_SAINDdf <- data.frame(medal_counts_SAIND)
+
+###MEDAL COUNTS COMPARISON WITH SOUTH AMERICAN COUNTRIES-The graph works 
+# Example data
+medal_counts_LongdfSouthAIND <- data.frame(medal_counts_SAINDdf)
+
+# Reshape data for plotting
+
+medal_counts_longSAIND <- medal_counts_LongdfSouthAIND %>%
+  pivot_longer(cols = c(Bronze, Silver, Gold),
+               names_to = "MedalType",
+               values_to = "Count")
+
+
+gcompareSA_iND <- ggplot(medal_counts_longSAIND, aes(x = Country, y = Count, fill = MedalType)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(title = "Medal Counts by Country and Medal Type",
+       x = "Country",
+       y = "Medal Count",
+       fill = "Medal Type") +
+  scale_fill_manual(values = c(
+    "Bronze" = "brown",
+    "Silver" = "grey",
+    "Gold" = "gold"
+  )) +  # Custom colors
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+gcompareSA_iND
+
+#this graph is working
+
+```
+
+\newpage
+
+# Comparison of Top 10 Countries in terms of Summer and Winter medals \label{Comparison of Top 10 Summer and Winter Countries}
+
+The bar chart below shows the medal counts of the top 10 medal holders across the globe. Both the summer and winter Olympics exhibit a similar trend. The United States is consistently dominating both the summer and winter Olympics. We can also observe intense competition in the winter Olympics, with many countries having a narrow medal count gap. However, the summer Olympics have more medals compared to the winter Olympics.
+
+
+```{r,  warning =  FALSE, fig.align = 'center', fig.cap = "Comparison of Top 10 Countries in terms of Summer and Winter medals.\\label{Figure1}", fig.ext = 'png', fig.height = 5, fig.width = 7}
+
+#SUMMER MEDALS DATA
+
+# Example: Arrange summer medals data by Country
+Summer_arranged_df <- Summer %>%
+  arrange(Country)
+
+# Example: Summarize medal counts by country
+summer_medal_counts <- Summer %>%
+  group_by(Country, Medal) %>%
+  summarise(count = n()) %>%
+  pivot_wider(names_from = Medal, values_from = count, values_fill = list(count = 0))
+
+
+#Filter by those dominant medal counts 
+Summer_medal_df <- data.frame(summer_medal_counts)
+
+# Calculate total medals (Bronze + Silver + Gold)
+Summer_medal_df$total_medals <- Summer_medal_df$Bronze + Summer_medal_df$Silver + Summer_medal_df$Gold
+
+# Sort dataframe by total medals in descending order
+Summ_medal_counts_sorted <- Summer_medal_df[order(-Summer_medal_df$total_medals), ]
+
+# Select top countries with highest medal counts (e.g., top 3)
+Summ_Dominant_medal <- Summ_medal_counts_sorted[1:10, ]
+
+
+#WINTER MEDALS DATA
+
+# Example: Arrange summer medals data by Country
+Winter_arranged_df <- Winter %>%
+  arrange(Country)
+
+# Example: Summarize medal counts by country
+Winter_medal_counts <- Winter %>%
+  group_by(Country, Medal) %>%
+  summarise(count = n()) %>%
+  pivot_wider(names_from = Medal, values_from = count, values_fill = list(count = 0))
+
+
+#Filter by those dominant medal counts 
+Wint_medal_df <- data.frame(Winter_medal_counts)
+
+# Calculate total medals (Bronze + Silver + Gold)
+Wint_medal_df$total_medals <- Wint_medal_df$Bronze + Wint_medal_df$Silver + Wint_medal_df$Gold
+
+# Sort dataframe by total medals in descending order
+medal_counts_sorted <- Wint_medal_df[order(-Wint_medal_df$total_medals), ]
+
+# Select top countries with highest medal counts (e.g., top 3)
+Dominant_medal <- medal_counts_sorted[1:10, ]
+
+
+# top_winter_countries <- your_top_winter_countries_data
+
+# Combine both datasets for plotting
+combined_top_countries <- bind_rows(
+  mutate(Summ_Dominant_medal, Season = "Summer"),
+  mutate(Dominant_medal, Season = "Winter")
+)
+
+# Plot using ggplot
+gtop10 <- ggplot(combined_top_countries, aes(x = Country, y = total_medals, fill = Season)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  labs(title = "Comparison of Top 10 Summer and Winter Countries",
+       x = "Country", y = "Total Medals",
+       fill = "Season") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~ Season, scales = "free", nrow = 1)  
+
+gtop10 
+
+```
